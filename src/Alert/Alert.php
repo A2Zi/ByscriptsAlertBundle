@@ -15,42 +15,31 @@ class Alert
      * @var Session
      */
     protected $session;
-    /**
-     * @var array
-     */
-    private $classes;
 
-    function __construct(Session $session, array $classes)
+    function __construct(Session $session)
     {
         $this->session = $session;
-        $this->classes = $classes;
     }
 
     /**
-     * @param string $type
-     * @param string $message
+     * @param string       $type
+     * @param string       $message
      * @param array|string $args
-     * @param null|string $_
+     *
+     * @return
      */
-    public function addMessage($type, $message, $args = null, $_ = null)
+    public function addMessage($type, $message, array $args = array())
     {
-        if (array_key_exists($type, $this->classes)) {
-            $type = $this->classes[$type];
-        }
-        if (null === $args) {
-            return $this->session->getFlashBag()->add($type, $message);
-        } elseif (!is_array($args)) {
-            $args = array_slice(func_get_args(), 2);
-        }
-
-        $args = array_map(
-            function ($value) {
-                return htmlentities($value);
-            },
-            $args
-        );
-
-        return $this->session->getFlashBag()->add($type, vsprintf($message, $args));
+        return $this
+            ->session
+            ->getFlashBag()
+            ->add(
+                $type,
+                vsprintf(
+                    $message,
+                    array_map('htmlentities', $args)
+                )
+            );
     }
 
     public function __call($method, $arguments)

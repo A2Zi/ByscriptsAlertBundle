@@ -2,16 +2,28 @@
 
 namespace Byscripts\Bundle\AlertBundle\Twig;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 class AlertExtension extends \Twig_Extension
 {
     /**
      * @var string
      */
     private $template;
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\Session
+     */
+    private $session;
+    /**
+     * @var array
+     */
+    private $parameters;
 
-    function __construct($template)
+    function __construct(Session $session, $template, array $parameters)
     {
         $this->template = $template;
+        $this->session = $session;
+        $this->parameters = $parameters;
     }
 
     public function getFunctions()
@@ -30,7 +42,23 @@ class AlertExtension extends \Twig_Extension
 
     public function alertFunction(\Twig_Environment $environment)
     {
-        return $environment->render($this->template);
+//        $flashes = $this->session->getFlashBag()->all();
+//
+//        $context = array('flashes' => array());
+//
+//        foreach($flashes as $type => $messages) {
+//            $currentViewArgument = array('messages' => $messages);
+//            foreach ($this->parameters as $name => $types) {
+//                if (!empty($types[$type])) {
+//                    $currentViewArgument[$name] = $types[$type];
+//                }
+//            }
+//            $context['flashes'][] = $currentViewArgument;
+//        }
+//        return $environment->render($this->template, $context);
+        return $environment->render($this->template, array(
+                'flash_parameters' => $this->parameters
+            ));
     }
 
     /**

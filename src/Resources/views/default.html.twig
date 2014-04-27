@@ -1,6 +1,7 @@
-{% for class, messages in app.session.flashBag.all %}
+{% for type, messages in app.session.flashBag.all %}
     {% for message in messages %}
-        <div class="{{ class }}">
+        <div class="{{ flash_parameters.container[type] }}">
+            <span class="{{ flash_parameters.icon[type] }}"></span>
             {{ message|raw }}
         </div>
     {% endfor %}

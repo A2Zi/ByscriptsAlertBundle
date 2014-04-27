@@ -18,117 +18,55 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('byscripts_alert');
+        $rootNode    = $treeBuilder->root('byscripts_alert');
 
         $rootNode
-            ->children()
-                ->scalarNode('template')
-                    ->defaultValue('default')
-                    ->beforeNormalization()
-                        ->always(function($value){
-                            switch($value)
-                            {
-                                case 'default':
-                                    return '@ByscriptsAlert/default.html.twig';
-                                default:
-                                    return $value;
-                            }
-                        })
-                    ->end()
-                ->end()
-                ->arrayNode('classes')
-                    ->append($this->iconsNode())
-                    ->append($this->typesNode())
-                ->end()
-            ->end();
-
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+//            ->addDefaultsIfNotSet()
+            ->append($this->templatesNode())
+            ->append($this->parametersNode());
 
         return $treeBuilder;
     }
 
-    public function iconsNode()
+    private function templatesNode()
     {
         $builder = new TreeBuilder();
 
         return $builder
-            ->root('icons')
-            ->beforeNormalization()
-                ->ifString()
-                ->then(function($value){
-                    switch($value) {
-                        case 'glyphicons':
-                            return array(
-                                'success' => 'glyphicon glyphicon-success',
-                                'warning' => 'glyphicon',
-                                'error' => 'glyphicon glyphicon-error',
-                                'danger' => 'glyphicon glyphicon-danger',
-                                'alert' => 'glyphicon glyphicon-error',
-                                'info' => 'glyphicon glyphicon-info',
-                            );
-                        case 'fontawesome':
-                            return array();
-                        default:
-                            return array();
-                    }
-                })
-            ->end();
+            ->root('template', 'scalar')
+            ->defaultValue('default');
     }
 
-    public function typesNode()
+    private function parametersNode()
     {
         $builder = new TreeBuilder();
 
         return $builder
-            ->root('types')
-            ->beforeNormalization()
-                ->ifString()
-                ->then(function($value) {
-                    switch($value) {
-                        case 'bootstrap2':
-                            return array(
-                                'default' => 'alert alert-success',
-                                'primary' => 'alert alert-success',
-                                'secondary' => 'alert alert-info',
-                                'success' => 'alert alert-success',
-                                'warning' => 'alert',
-                                'error' => 'alert alert-error',
-                                'danger' => 'alert alert-danger',
-                                'alert' => 'alert alert-error',
-                                'info' => 'alert alert-info',
-                            );
-                        case 'foundation5':
-                            return array(
-                                'default' =>  'alert-box',
-                                'primary' =>  'alert-box',
-                                'secondary' =>  'alert-box secondary',
-                                'success' =>  'alert-box success',
-                                'warning' =>  'alert-box warning',
-                                'error' =>  'alert-box alert',
-                                'danger' =>  'alert-box alert',
-                                'alert' =>  'alert-box alert',
-                                'info' =>  'alert-box info',
-                            );
-                        default:
-                            return array(
-                                'default' => 'alert alert-success',
-                                'primary' => 'alert alert-success',
-                                'secondary' => 'alert alert-info',
-                                'success' => 'alert alert-success',
-                                'warning' => 'alert alert-warning',
-                                'error' => 'alert alert-danger',
-                                'danger' => 'alert alert-danger',
-                                'alert' => 'alert alert-danger',
-                                'info' => 'alert alert-info',
-                            );
-                    }
-                })
-            ->end()
-            ->prototype('scalar')
-            ->end()
-            ;
+            ->root('parameters')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('container')
+                        ->defaultValue(array('extends' => 'bootstrap3'))
+                        ->beforeNormalization()
+                            ->ifString()
+                            ->then(function($value){
+                                    return array('extends' => $value);
+                                })
+                        ->end()
+                        ->prototype('scalar')->end()
+                    ->end()
+                    ->arrayNode('icon')
+                        ->defaultValue(array('extends' => 'glyphicons'))
+                        ->beforeNormalization()
+                            ->ifString()
+                            ->then(function($value){
+                                    return array('extends' => $value);
+                                })
+                        ->end()
+                        ->prototype('scalar')->end()
+                    ->end()
+
+
+            ->end();
     }
 }
