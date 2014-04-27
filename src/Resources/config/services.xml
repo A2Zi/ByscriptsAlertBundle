@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service class="Byscripts\Bundle\AlertBundle\Alert\Alert" id="bys.alert">
+            <argument type="service" id="session"/>
+            <argument>%bys.alert.classes%</argument>
+        </service>
+        <service class="Byscripts\Bundle\AlertBundle\Twig\AlertExtension" id="bys.twig.alert_extension">
+            <argument>%bys.alert.template%</argument>
+            <tag name="twig.extension"/>
+        </service>
+    </services>
+    <!--
+    <parameters>
+        <parameter key="byscripts_alert.example.class">Byscripts\Bundle\AlertBundle\Example</parameter>
+    </parameters>
+
+    <services>
+        <service id="byscripts_alert.example" class="%byscripts_alert.example.class%">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+    -->
+</container>

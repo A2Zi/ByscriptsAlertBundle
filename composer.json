@@ -1,0 +1,17 @@
+{
+    "name": "byscripts/alert-bundle",
+    "description": "A flexible way to handle Symfony flash messages. Supports Bootstrap2, Bootstrap3 and Foundation out-of-the-box. Easily configurable to support any other UI framework.",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thierry Goettelmann",
+            "email": "thierry@byscripts.info"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Byscripts\\Bundle\\AlertBundle\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{% for class, messages in app.session.flashBag.all %}
+    {% for message in messages %}
+        <div class="{{ class }}">
+            {{ message|raw }}
+        </div>
+    {% endfor %}
+{% endfor %}
