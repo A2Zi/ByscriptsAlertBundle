@@ -37,10 +37,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('classes')
-                    ->children()
-                        ->append($this->iconsNode())
-                        ->append($this->typesNode())
-                    ->end()
+                    ->append($this->iconsNode())
+                    ->append($this->typesNode())
                 ->end()
             ->end();
 
@@ -59,8 +57,8 @@ class Configuration implements ConfigurationInterface
         return $builder
             ->root('icons')
             ->beforeNormalization()
-            ->ifString()
-            ->then(function($value){
+                ->ifString()
+                ->then(function($value){
                     switch($value) {
                         case 'glyphicons':
                             return array(
@@ -87,8 +85,8 @@ class Configuration implements ConfigurationInterface
         return $builder
             ->root('types')
             ->beforeNormalization()
-            ->ifString()
-            ->then(function($value) {
+                ->ifString()
+                ->then(function($value) {
                     switch($value) {
                         case 'bootstrap2':
                             return array(
@@ -130,6 +128,7 @@ class Configuration implements ConfigurationInterface
                 })
             ->end()
             ->prototype('scalar')
+            ->end()
             ;
     }
 }
