@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->arrayNode('classes')
+            ->defaultValue('bootstrap3')
             ->beforeNormalization()
                 ->ifString()
                     ->ifNotInArray(['bootstrap2', 'bootstrap3', 'foundation5'])
@@ -71,7 +72,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->prototype('scalar')->end()
             ->end()
-            ->scalarNode('template')->end()
+            ->scalarNode('template')
+                ->defaultValue('default')
+            ->end()
         ;
 
         // Here you should define the parameters that are allowed to
