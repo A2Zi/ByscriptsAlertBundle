@@ -22,25 +22,27 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('template')
-            ->defaultValue('default')
-            ->beforeNormalization()
-            ->always(function($value){
-                    switch($value)
-                    {
-                        case 'default':
-                            return '@ByscriptsAlert/default.html.twig';
-                        default:
-                            return $value;
-                    }
-                });
-
-        $rootNode
-            ->children()
-            ->arrayNode('classes')
-            ->children()
-            ->append($this->iconsNode())
-            ->append($this->typesNode());
+                ->scalarNode('template')
+                    ->defaultValue('default')
+                    ->beforeNormalization()
+                        ->always(function($value){
+                            switch($value)
+                            {
+                                case 'default':
+                                    return '@ByscriptsAlert/default.html.twig';
+                                default:
+                                    return $value;
+                            }
+                        })
+                    ->end()
+                ->end()
+                ->arrayNode('classes')
+                    ->children()
+                        ->append($this->iconsNode())
+                        ->append($this->typesNode())
+                    ->end()
+                ->end()
+            ->end();
 
 
         // Here you should define the parameters that are allowed to
