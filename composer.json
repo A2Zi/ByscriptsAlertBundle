@@ -1,6 +1,6 @@
 {
     "name": "byscripts/alert-bundle",
-    "description": "A flexible way to handle Symfony flash messages. Supports Bootstrap2, Bootstrap3 and Foundation out-of-the-box. Easily configurable to support any other UI framework.",
+    "description": "A flexible way to handle Symfony flash messages. Supports Bootstrap2, Bootstrap3 and Foundation out-of-the-box. Easily configurable to support any other UI framework or custom CSS / Icons.",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
