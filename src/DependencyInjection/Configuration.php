@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->arrayNode('classes')
+            ->children()
             ->append($this->iconsNode())
             ->append($this->typesNode());
 
