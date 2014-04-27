@@ -21,15 +21,27 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('byscripts_alert');
 
+        $bootstrap3 = array(
+            'default' => 'alert alert-success',
+            'primary' => 'alert alert-success',
+            'secondary' => 'alert alert-info',
+            'success' => 'alert alert-success',
+            'warning' => 'alert alert-warning',
+            'error' => 'alert alert-danger',
+            'danger' => 'alert alert-danger',
+            'alert' => 'alert alert-danger',
+            'info' => 'alert alert-info',
+        );
+
         $rootNode
             ->children()
             ->arrayNode('classes')
-            ->defaultValue('bootstrap3')
+            ->defaultValue($bootstrap3)
             ->beforeNormalization()
                 ->ifString()
                     ->ifNotInArray(['bootstrap2', 'bootstrap3', 'foundation5'])
                     ->thenInvalid('You must choose either bootstrap2, bootstrap3 or foundation5')
-                ->always(function($value){
+                ->always(function($value) use($bootstrap3) {
                         switch($value) {
                             case 'bootstrap2':
                                 return array(
@@ -44,17 +56,7 @@ class Configuration implements ConfigurationInterface
                                     'info' => 'alert alert-info',
                                 );
                             case 'bootstrap3':
-                                return array(
-                                    'default' => 'alert alert-success',
-                                    'primary' => 'alert alert-success',
-                                    'secondary' => 'alert alert-info',
-                                    'success' => 'alert alert-success',
-                                    'warning' => 'alert alert-warning',
-                                    'error' => 'alert alert-danger',
-                                    'danger' => 'alert alert-danger',
-                                    'alert' => 'alert alert-danger',
-                                    'info' => 'alert alert-info',
-                                );
+                                return $bootstrap3;
                             case 'foundation5':
                                 return array(
                                     'default' =>  'alert-box',
