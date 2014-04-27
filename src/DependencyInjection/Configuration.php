@@ -4,7 +4,6 @@ namespace Byscripts\Bundle\AlertBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -21,62 +20,68 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('byscripts_alert');
 
-        $bootstrap3 = array(
-            'default' => 'alert alert-success',
-            'primary' => 'alert alert-success',
-            'secondary' => 'alert alert-info',
-            'success' => 'alert alert-success',
-            'warning' => 'alert alert-warning',
-            'error' => 'alert alert-danger',
-            'danger' => 'alert alert-danger',
-            'alert' => 'alert alert-danger',
-            'info' => 'alert alert-info',
-        );
+        $rootNode
+            ->children()
+            ->scalarNode('template')
+            ->defaultValue('default')
+            ->beforeNormalization()
+            ->always(function($value){
+                    switch($value)
+                    {
+                        case 'default':
+                            return '@ByscriptsAlert/default.html.twig';
+                        default:
+                            return $value;
+                    }
+                });
 
         $rootNode
             ->children()
             ->arrayNode('classes')
-            ->defaultValue($bootstrap3)
             ->beforeNormalization()
-                ->ifString()
-                    ->ifNotInArray(['bootstrap2', 'bootstrap3', 'foundation5'])
-                    ->thenInvalid('You must choose either bootstrap2, bootstrap3 or foundation5')
-                ->always(function($value) use($bootstrap3) {
-                        switch($value) {
-                            case 'bootstrap2':
-                                return array(
-                                    'default' => 'alert alert-success',
-                                    'primary' => 'alert alert-success',
-                                    'secondary' => 'alert alert-info',
-                                    'success' => 'alert alert-success',
-                                    'warning' => 'alert',
-                                    'error' => 'alert alert-error',
-                                    'danger' => 'alert alert-danger',
-                                    'alert' => 'alert alert-error',
-                                    'info' => 'alert alert-info',
-                                );
-                            case 'bootstrap3':
-                                return $bootstrap3;
-                            case 'foundation5':
-                                return array(
-                                    'default' =>  'alert-box',
-                                    'primary' =>  'alert-box',
-                                    'secondary' =>  'alert-box secondary',
-                                    'success' =>  'alert-box success',
-                                    'warning' =>  'alert-box warning',
-                                    'error' =>  'alert-box alert',
-                                    'danger' =>  'alert-box alert',
-                                    'alert' =>  'alert-box alert',
-                                    'info' =>  'alert-box info',
-                                );
-                        }
-                    })
-                ->end()
-                ->prototype('scalar')->end()
+            ->ifString()
+            ->then(function($value) {
+                switch($value) {
+                    case 'bootstrap2':
+                        return array(
+                            'default' => 'alert alert-success',
+                            'primary' => 'alert alert-success',
+                            'secondary' => 'alert alert-info',
+                            'success' => 'alert alert-success',
+                            'warning' => 'alert',
+                            'error' => 'alert alert-error',
+                            'danger' => 'alert alert-danger',
+                            'alert' => 'alert alert-error',
+                            'info' => 'alert alert-info',
+                        );
+                    case 'foundation5':
+                        return array(
+                            'default' =>  'alert-box',
+                            'primary' =>  'alert-box',
+                            'secondary' =>  'alert-box secondary',
+                            'success' =>  'alert-box success',
+                            'warning' =>  'alert-box warning',
+                            'error' =>  'alert-box alert',
+                            'danger' =>  'alert-box alert',
+                            'alert' =>  'alert-box alert',
+                            'info' =>  'alert-box info',
+                        );
+                    default:
+                        return array(
+                            'default' => 'alert alert-success',
+                            'primary' => 'alert alert-success',
+                            'secondary' => 'alert alert-info',
+                            'success' => 'alert alert-success',
+                            'warning' => 'alert alert-warning',
+                            'error' => 'alert alert-danger',
+                            'danger' => 'alert alert-danger',
+                            'alert' => 'alert alert-danger',
+                            'info' => 'alert alert-info',
+                        );
+                }
+            })
             ->end()
-            ->scalarNode('template')
-                ->defaultValue('default')
-            ->end()
+            ->prototype('scalar')
         ;
 
         // Here you should define the parameters that are allowed to
