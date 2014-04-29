@@ -30,7 +30,7 @@ class AlertExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction(
-                'bys_alert',
+                'byscripts_alert',
                 array($this, 'alertFunction'),
                 array(
                     'is_safe' => array('html'),
@@ -68,6 +68,6 @@ class AlertExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'bys_alert_extension';
+        return 'byscripts_alert_extension';
     }
 }
