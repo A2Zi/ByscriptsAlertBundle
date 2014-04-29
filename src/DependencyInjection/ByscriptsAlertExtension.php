@@ -104,8 +104,8 @@ class ByscriptsAlertExtension extends Extension
         }
 
 
-        $container->setParameter('bys.alert.parameters', $config['parameters']);
-        $container->setParameter('bys.alert.template', $config['template']);
+        $container->setParameter('byscripts_alert.parameters', $config['parameters']);
+        $container->setParameter('byscripts_alert.template', $config['template']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');

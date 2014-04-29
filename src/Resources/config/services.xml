@@ -5,13 +5,13 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service class="Byscripts\Bundle\AlertBundle\Alert\Alert" id="bys.alert">
+        <service class="Byscripts\Bundle\AlertBundle\Alert\Alert" id="byscripts_alert.alert">
             <argument type="service" id="session"/>
         </service>
-        <service class="Byscripts\Bundle\AlertBundle\Twig\AlertExtension" id="bys.twig.alert_extension">
+        <service class="Byscripts\Bundle\AlertBundle\Twig\AlertExtension" id="byscripts_alert.twig.alert_extension">
             <argument type="service" id="session"/>
-            <argument>%bys.alert.template%</argument>
-            <argument>%bys.alert.parameters%</argument>
+            <argument>%byscripts_alert.template%</argument>
+            <argument>%byscripts_alert.parameters%</argument>
             <tag name="twig.extension"/>
         </service>
     </services>
